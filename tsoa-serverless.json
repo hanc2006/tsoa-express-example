@@ -1,0 +1,16 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "src/aws",
+    "specVersion": 3
+  },
+  "routes": {
+    "routesDir": "src/aws",
+    "routeGenerator": "src/serverless/routeGenerator.js",
+    "modelsTemplate": "src/serverless/models.hbs",
+    "handlerTemplate": "src/serverless/handler.hbs",
+    "stackTemplate": "src/serverless/api-stack.hbs"
+  }
+}

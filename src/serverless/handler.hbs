@@ -1,0 +1,39 @@
+import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
+import { {{controller.name}} } from '.{{controller.modulePath}}';
+
+{{#if iocModule}}
+import { iocContainer } from '{{iocModule}}';
+import { IocContainer, IocContainerFactory } from '@tsoa/runtime';
+{{/if}}
+
+{{#if iocModule}}
+const container: IocContainer = typeof iocContainer === 'function' ? (iocContainer as IocContainerFactory)(request) : iocContainer;
+
+const controller: any = await container.get<{{../name}}>({{controller.name}});
+if (typeof controller['setStatus'] === 'function') {
+controller.setStatus(undefined);
+}
+{{else}}
+const controller = new {{controller.name}}();
+{{/if}}
+
+/**
+*   Handler for:
+*   {{action.method}} {{action.fullPath}}
+*
+*/
+export async function handler (event: APIGatewayEvent): Promise<APIGatewayProxyResult>  {
+    try {
+        // eslint-disable-next-line prefer-spread
+        const result = await controller.{{action.name}}.apply(controller, validatedArgs as any);
+        return {
+            statusCode: {{action.successStatus}},
+            body: JSON.stringify(result)
+        };
+    } catch (err) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify(err)
+        };
+    }
+}

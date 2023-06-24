@@ -1,9 +1,10 @@
 import { User } from '../models/UserModel'
 
-// export type UserCreationParams = Pick<User, 'email' | 'name' | 'phoneNumbers'>
+export type UserCreationParams = Pick<User, 'email' | 'name' | 'phoneNumbers'>
 
 export class UsersService {
-  public get(id: number, name?: string): User {
+  public get(id: number, name?: string): User | null {
+    if(id === 0) return null;
     return {
       id,
       email: 'jane@doe.com',
@@ -13,11 +14,11 @@ export class UsersService {
     }
   }
 
-  // public create(userCreationParams: UserCreationParams): User {
-  //   return {
-  //     id: Math.floor(Math.random() * 10000), // Random
-  //     status: 'Happy',
-  //     ...userCreationParams,
-  //   }
-  // }
+  public create(userCreationParams: UserCreationParams): User {
+    return {
+      id: Math.floor(Math.random() * 10000), // Random
+      status: 'Happy',
+      ...userCreationParams,
+    }
+  }
 }

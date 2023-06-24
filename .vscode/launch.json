@@ -1,0 +1,29 @@
+{
+    // Problem with SkipFiles
+    // https://github.com/nodejs/node/issues/15464
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch NodeJs",
+        "type": "node",
+        "request": "launch",
+        "restart": true,
+        "smartStep": true,
+        "cwd": "${workspaceFolder}",
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ts-node",
+        "internalConsoleOptions": "neverOpen",
+        "console": "integratedTerminal",
+        "outputCapture": "std",
+        "args": [
+          "src/prepare.ts"
+        ],
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "env": {
+          "NODE_PATH": "${workspaceFolder}/src",
+          "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
+        }
+      }
+    ]
+  }

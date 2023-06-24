@@ -1,8 +1,65 @@
-type MsException = 'ERR_INVALID_EMAIL' | 'ERR_INVALID_NAME';
+import { HttpStatusCodeLiteral } from 'tsoa';
 
-interface ErrorDetail<T> {
-    code: T;
-    message?: string;
+export type BaseException = 'ERR_SYSTEM_ERROR' | 'ERR_RESOURCE_NOT_FOUND' | 'ERR_NOT_ALLOWED' | 'ERR_APPLICATION_NOT_AVAILABLE' | 'ERR_API_KEY_EMPTY' | 'ERR_WRONG_API_KEY' | 'ERR_UNAUTHORIZED' | 'ERR_HEALTHCHECK_FAILED' | 'ERR_NOT_DEFINED' | 'ERR_JSON_VALIDATION' | 'ERR_ACCESS_PROVIDER_NOT_AVAILABLE' | 'ERR_INVALID_ROUTE' | 'ERR_INVALID_TOKEN_SCHEME' | 'ERR_MISSING_TOKEN' | 'ERR_UNSUPPORTED_TOKEN_ALG' | 'ERR_INVALID_TOKEN_TYPE' | 'ERR_JWKS_UNAVAILABLE' | 'ERR_VERIFY_TOKEN_SIGNATURE' | 'ERR_TOKEN_IS_REVOKED';
+
+export type HttpCodeToExceptionMap<T extends string | BaseException> = Record<
+  T,
+  HttpStatusCodeLiteral
+>;
+
+export const HttpErrorMap: HttpCodeToExceptionMap<BaseException> = {
+  ERR_APPLICATION_NOT_AVAILABLE: 500,
+  ERR_SYSTEM_ERROR: 500,
+  ERR_NOT_ALLOWED: 405,
+  ERR_WRONG_API_KEY: 401,
+  ERR_UNAUTHORIZED: 401,
+  ERR_HEALTHCHECK_FAILED: 500,
+  ERR_NOT_DEFINED: 400,
+  ERR_JSON_VALIDATION: 400,
+  ERR_ACCESS_PROVIDER_NOT_AVAILABLE: 400,
+  ERR_INVALID_ROUTE: 404,
+  ERR_INVALID_TOKEN_SCHEME: 400,
+  ERR_MISSING_TOKEN: 400,
+  ERR_UNSUPPORTED_TOKEN_ALG: 400,
+  ERR_INVALID_TOKEN_TYPE: 400,
+  ERR_JWKS_UNAVAILABLE: 500,
+  ERR_VERIFY_TOKEN_SIGNATURE: 401,
+  ERR_TOKEN_IS_REVOKED: 401,
+  ERR_RESOURCE_NOT_FOUND: 404,
+  ERR_API_KEY_EMPTY: 401
+};
+
+export type MsException =
+  | 'ERR_REF_ID_NOT_FOUND'
+  | 'ERR_NUTE_API'
+  | 'ERR_NUTE_API_ADDRESS_NOT_VALID'
+  | 'ERR_NUTE_API_TIMEOUT'
+  | 'ERR_NUTE_API_SERVICE_UNAVAILABLE'
+  | 'ERR_RESPONSE_NOT_AVAILABLE'
+  | 'ERR_NUTE_API_READ_TIMEOUT'
+  | 'ERR_INVALID_ADDRESS'
+  | 'ERR_FROM_PRODUCT_CATALOG_API'
+  | 'ERR_INVALID_ORIGIN'
+  | BaseException;
+
+export const errors: HttpCodeToExceptionMap<MsException> = {
+  ...HttpErrorMap,
+  ERR_REF_ID_NOT_FOUND: 404,
+  ERR_NUTE_API: 500,
+  ERR_NUTE_API_ADDRESS_NOT_VALID: 404,
+  ERR_NUTE_API_TIMEOUT: 503,
+  ERR_NUTE_API_SERVICE_UNAVAILABLE: 503,
+  ERR_RESPONSE_NOT_AVAILABLE: 404,
+  ERR_NUTE_API_READ_TIMEOUT: 503,
+  ERR_INVALID_ADDRESS: 404,
+  ERR_FROM_PRODUCT_CATALOG_API: 500,
+  ERR_INVALID_ORIGIN: 400
+};
+
+export function Exception<T extends string = BaseException>(
+  errors: HttpCodeToExceptionMap<T>,
+  codes: (keyof HttpCodeToExceptionMap<T>)[]
+) {
+  return function (target: unknown, methodName: string, descriptor: PropertyDescriptor) {
+  };
 }
-
-export type HttpResponseError = ErrorDetail<MsException>;

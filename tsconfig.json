@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    // "module": "ESNext",
     "module": "CommonJS",
+    "lib": ["ESNext"],
+    "inlineSourceMap": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,9 +14,15 @@
     "emitDecoratorMetadata": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "rootDir": "./src"
   },
-  "exclude": ["node_modules"],
-  "include": ["src"]
+  "exclude": ["node_modules", "src/prepare.ts"],
+  "include": ["src"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }
+
